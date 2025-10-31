@@ -1,6 +1,13 @@
 name: Cypress Tests
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: "Spec name without extension (e.g., forms)"
+        required: false
+        default: ""
 
 jobs:
   cypress-run:
@@ -15,11 +22,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 22
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-      - name: Cypress run
+      - name: Cypress run (all specs)
+        if: ${{ github.event.inputs.spec == '' }}
         uses: cypress-io/github-action@v6
         with:
           record: true
@@ -27,4 +35,13 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Cypress run (single spec)
+        if: ${{ github.event.inputs.spec != '' }}
+        uses: cypress-io/github-action@v6
+        with:
+          spec: cypress/e2e/${{ github.event.inputs.spec }}.cy.js
+          record: true
+          parallel: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
