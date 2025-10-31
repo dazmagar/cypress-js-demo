@@ -1,0 +1,14 @@
+{
+  "name": "cypress-js-demo",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "devDependencies": {
+    "cypress": "^15.5.0",
+    "cypress-xpath": "^2.0.1"
+  },
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:forms": "cypress run --spec \"cypress/e2e/forms.cy.js\" --record --key 33e3ced8-5b60-450b-bd9f-b9ac755a522b"
+  }
+}
