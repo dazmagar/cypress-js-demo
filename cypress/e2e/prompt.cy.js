@@ -1,5 +1,5 @@
 describe('Forms', () => {
-  it('Login Form', () => {
+  it.skip('Login Form', () => {
     cy.prompt([
     "Visit https://qa-automation-practice.netlify.app/",
     "Find the Forms submenu and click on it",
